@@ -9,8 +9,6 @@ import { ImageOffIcon } from "lucide-react";
 import ProgramLoading from "@/components/layouts/programLoading";
 import Link from "next/link";
 
-
-
 export default function DashboardPage() {
   const [programBody, setProgramBody] = useState<any>({
     name: "",
@@ -46,7 +44,7 @@ export default function DashboardPage() {
     <section className="flex flex-col gap-6 w-full">
       <CreateProgram programBody={programBody} setProgramBody={setProgramBody} onClick={createProgram} />
       {programDatas ? (
-        <div className="grid grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {programDatas.map((program: any) => (
             <Link href={`/dashboard/program/${program.id}`} key={program.id} className="card bg-[#1f273a] rounded-lg p-4 hover:border hover:border-white transition-all duration-150">
               <h2 className="text-lg">{program.name}</h2>

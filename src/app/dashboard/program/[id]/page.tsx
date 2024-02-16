@@ -54,7 +54,7 @@ export default function page({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="space-y-12 bg-[#1f273a] p-8 rounded-lg w-[50%] mx-auto">
+    <div className="space-y-12 bg-[#1f273a] p-8 rounded-lg max-w-[50%] mx-auto">
       {data && (
         <>
           <div className="prog__detail__header flex justify-between items-start">

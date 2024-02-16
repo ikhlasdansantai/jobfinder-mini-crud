@@ -53,6 +53,10 @@ PUT /api/user/program/:id
 DELETE /api/user/program/:id
 - menghapus program berdasarkan id dari parameter url
 
+ENV file:
+```env
+DATABASE_URL=
+```
 
 teknologi yang digunakan: 
 - NextJS + Typescript

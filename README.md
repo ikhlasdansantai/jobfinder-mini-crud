@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Jobfinder
+![tugas_dua_done](https://github.com/ikhlasdansantai/jobfinder-mini-crud/assets/95151018/890b309e-bdb2-419e-bed7-3090421cb416)
+![tugas_dua](https://github.com/ikhlasdansantai/jobfinder-mini-crud/assets/95151018/fbad2ec4-090c-4e62-9a05-7687218b2e73)
 
-## Getting Started
+Website ini meliputi beberapa fitur MVP, khususnya **CRUD**, disini kita mendemokan sebagi admin, yang bisa membuat program kerja, mengedit program kerja, dan menghapus program kerja.
 
-First, run the development server:
+Tampilan ini sangat sederhana sekali, mengingat fitur utama yang ingin ditonjolkan pada web ini adalah CRUD nya saja.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Endpoint
+ada beberapa point, yang ingin saya sampaikan, jangan lupa model dari id `JobProgram`, diganti jadi `cuid` aja, klo `uuid` agak susah dibacanya:V  
+
+GET /api/user/programs
+- Mendapatkan semua data programs
+GET /api/user/program/:id
+- Mendapatkan data program secara spesifik
+
+POST /api/user/program
+- membuat program baru, mengingat karena untuk handle user nya masih statis, dan hanya 1 user yang tersedia, sehingga userId nya dikirim secara statis seperti ini
+request body:
+```json
+{
+    "name": string,
+    "description": string,
+    "userId": "1b0363fa-922f-4a38-beeb-083817495be7",
+    "location": string?
+    "image": string?
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+PATCH /api/user/program/:id
+- mengedit program berdasarkan id dari parameter url
+```json
+{
+    "name": string,
+    "description": string,
+    "userId": "1b0363fa-922f-4a38-beeb-083817495be7",
+    "location": string?
+}
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+PUT /api/user/program/:id
+- mengedit program berdasarkan id dari parameter url (menambal semua data objek nya, semua request body harus terpenuhi)
+```json
+{
+    "name": string,
+    "description": string,
+    "userId": "1b0363fa-922f-4a38-beeb-083817495be7",
+    "location": string,
+    "image": string
+}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+DELETE /api/user/program/:id
+- menghapus program berdasarkan id dari parameter url
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+teknologi yang digunakan: 
+- NextJS + Typescript
+- Tailwindcss
+- Shadcn
+- Prisma + Postgresql

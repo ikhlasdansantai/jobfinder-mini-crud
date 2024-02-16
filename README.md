@@ -4,7 +4,7 @@
 
 Website ini meliputi beberapa fitur MVP, khususnya **CRUD**, disini kita mendemokan sebagi admin, yang bisa membuat program kerja, mengedit program kerja, dan menghapus program kerja.
 
-Tampilan ini sangat sederhana sekali, mengingat fitur utama yang ingin ditonjolkan pada web ini adalah CRUD nya saja.
+Mohon maaf jika ada yang masih belum mobile friendly:v, mengingat fitur utama yang ingin ditonjolkan pada web ini adalah CRUD nya saja.
 
 ## Endpoint
 ada beberapa point, yang ingin saya sampaikan, jangan lupa model dari id `JobProgram`, diganti jadi `cuid` aja, klo `uuid` agak susah dibacanya:V  
@@ -53,6 +53,10 @@ PUT /api/user/program/:id
 DELETE /api/user/program/:id
 - menghapus program berdasarkan id dari parameter url
 
+ENV file:
+```env
+DATABASE_URL=
+```
 
 teknologi yang digunakan: 
 - NextJS + Typescript

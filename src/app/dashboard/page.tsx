@@ -1,38 +1,30 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { ImageOffIcon } from "lucide-react";
 import ProgramLoading from "@/components/layouts/programLoading";
 import Link from "next/link";
+import CreateProgramLayout from "@/components/layouts/create-program-layout";
+import { useFetch } from "@/hooks/useFetch";
 
 export default function DashboardPage() {
   const [programBody, setProgramBody] = useState<any>({
     name: "",
     location: "",
+    description: "development...",
+    userId: "1b0363fa-922f-4a38-beeb-083817495be7",
   });
   const [programDatas, setProgramDatas] = useState<any>("");
 
   const getAllUserProgram = async () => {
-    const response = await fetch("/api/user/programs", { method: "GET" });
-    const results = await response.json();
-    setProgramDatas(results.data);
+    const fetchProgram = await useFetch({
+      url: "/api/user/programs",
+      method: "GET",
+    });
+    setProgramDatas(fetchProgram.data);
   };
 
   const createProgram = async () => {
-    const response = await fetch("/api/user/program", {
-      method: "POST",
-      body: JSON.stringify({
-        name: programBody.name,
-        description: "development...",
-        userId: "1b0363fa-922f-4a38-beeb-083817495be7",
-        location: programBody.location,
-      }),
-    });
-    console.log(programBody);
+    const fetchProgram = await useFetch({ url: "/api/user/program", method: "POST", reqBody: programBody });
+    alert(fetchProgram.message);
     getAllUserProgram();
   };
 
@@ -42,7 +34,7 @@ export default function DashboardPage() {
 
   return (
     <section className="flex flex-col gap-6 w-full">
-      <CreateProgram programBody={programBody} setProgramBody={setProgramBody} onClick={createProgram} />
+      <CreateProgramLayout programBody={programBody} setProgramBody={setProgramBody} onClick={createProgram} />
       {programDatas ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {programDatas.map((program: any) => (
@@ -64,53 +56,5 @@ export default function DashboardPage() {
         </div>
       )}
     </section>
-  );
-}
-
-function CreateProgram({ onClick, programBody, setProgramBody }: { onClick: any; programBody: any; setProgramBody: any }) {
-  const [open, setOpen] = useState(false);
-  const handleChange = (e: any) => {
-    setProgramBody({ ...programBody, [e.name]: e.value });
-  };
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant={"ghost"} className="bg-white text-slate-800 block ml-auto">
-          Buat Program
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
-        </DialogHeader>
-        <form onChange={(e) => handleChange(e.target)} className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Judul Program
-            </Label>
-            <Input id="name" name="name" placeholder="Software Engineer" className="col-span-3" min={3} max={25} required />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="location" className="text-right">
-              Lokasi
-            </Label>
-            <Input id="location" name="location" placeholder="Bandung" className="col-span-3" min={3} max={25} required />
-          </div>
-        </form>
-        <DialogFooter>
-          <Button
-            onClick={() => {
-              onClick();
-              setOpen(false);
-            }}
-            type="submit"
-          >
-            Save changes
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 }

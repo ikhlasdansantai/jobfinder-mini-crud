@@ -1,12 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import { useFetch } from "@/hooks/useFetch";
+import EditProgramLayout from "@/components/layouts/edit-program-layout";
 
 export default function DetailProgramPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -14,50 +11,36 @@ export default function DetailProgramPage({ params }: { params: { id: string } }
   const [programBody, setProgramBody] = useState<any>({
     name: "",
     location: "",
+    userId: "1b0363fa-922f-4a38-beeb-083817495be7",
   });
   const findProgramById = async () => {
-    const response = await fetch(`/api/user/program/${id}`);
-    const results = await response.json();
-    if (results.data === null) {
-      alert(results.message);
+    const fetchProgram = await useFetch({ url: `/api/user/program/${id}`, method: "GET" });
+    if (fetchProgram.data === null) {
+      alert(fetchProgram.message);
       router.push("/dashboard");
     }
-    setData(results.data);
+    setData(fetchProgram.data);
   };
 
   useEffect(() => {
-    const findProgramById = async () => {
-      const response = await fetch(`/api/user/program/${id}`);
-      const results = await response.json();
-      if (results.data === null) {
-        alert(results.message);
-        router.push("/dashboard");
-      }
-      setData(results.data);
-    };
     findProgramById();
   }, []);
 
   const router = useRouter();
 
   const updateProgram = async () => {
-    const response = await fetch(`/api/user/program/${id}`, {
+    const fetchProgram = await useFetch({
+      url: `/api/user/program/${id}`,
       method: "PATCH",
-      body: JSON.stringify({
-        name: programBody.name,
-        location: programBody.location,
-        userId: "1b0363fa-922f-4a38-beeb-083817495be7",
-      }),
+      reqBody: programBody,
     });
-    const results = await response.json();
-    alert(results.message);
+    alert(fetchProgram.message);
     findProgramById();
   };
 
   const deleteProgram = async () => {
-    const response = await fetch(`/api/user/program/${id}`, { method: "DELETE" });
-    const results = await response.json();
-    alert(results.message);
+    const fetchProgram = await useFetch({ url: `/api/user/program/${id}`, method: "DELETE" });
+    alert(fetchProgram.message);
     router.push("/dashboard");
   };
 
@@ -105,82 +88,9 @@ export default function DetailProgramPage({ params }: { params: { id: string } }
               </ul>
             </div>
           </div>
-          <EditProgram data={data} programBody={programBody} setProgramBody={setProgramBody} handleUpdateProgram={updateProgram} handleDeleteProgram={deleteProgram} />
+          <EditProgramLayout data={data} programBody={programBody} setProgramBody={setProgramBody} handleUpdateProgram={updateProgram} handleDeleteProgram={deleteProgram} />
         </>
       )}
     </div>
-  );
-}
-
-function EditProgram({ data, programBody, setProgramBody, handleUpdateProgram, handleDeleteProgram }: any) {
-  const handleChange = (e: any) => {
-    setProgramBody({ ...programBody, [e.name]: e.value });
-  };
-  return (
-    <div className="prog__detail__footer flex items-center gap-4">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant={"custom__primary"} size="lg">
-            Edit this Job
-          </Button>
-        </SheetTrigger>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</SheetDescription>
-          </SheetHeader>
-          <form onChange={(e) => handleChange(e.target)} className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input id="name" name="name" placeholder={data?.name} className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="location" className="text-right">
-                Location
-              </Label>
-              <Input id="location" name="location" placeholder={data?.location} className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Detail
-              </Label>
-              <Input id="username" placeholder="under construction" className="col-span-3" disabled={true} />
-            </div>
-          </form>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button onClick={handleUpdateProgram} type="submit">
-                Save changes
-              </Button>
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-      <DeleteProgram handleDeleteProgram={handleDeleteProgram} />
-    </div>
-  );
-}
-
-function DeleteProgram({ handleDeleteProgram }: any) {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button size={"lg"} variant={"destructive"}>
-          Delete This Job
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteProgram}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
   );
 }

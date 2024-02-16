@@ -1,15 +1,14 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, Router } from "lucide-react";
+import { Check } from "lucide-react";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 
-export default function page({ params }: { params: { id: string } }) {
+export default function DetailProgramPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const [data, setData] = useState<any>("");
   const [programBody, setProgramBody] = useState<any>({
@@ -27,6 +26,15 @@ export default function page({ params }: { params: { id: string } }) {
   };
 
   useEffect(() => {
+    const findProgramById = async () => {
+      const response = await fetch(`/api/user/program/${id}`);
+      const results = await response.json();
+      if (results.data === null) {
+        alert(results.message);
+        router.push("/dashboard");
+      }
+      setData(results.data);
+    };
     findProgramById();
   }, []);
 

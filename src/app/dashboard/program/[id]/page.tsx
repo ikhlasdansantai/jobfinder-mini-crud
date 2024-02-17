@@ -13,7 +13,7 @@ export default function DetailProgramPage({ params }: { params: { id: string } }
     location: "",
     userId: "1b0363fa-922f-4a38-beeb-083817495be7",
   });
-  const findProgramById = async () => {
+  const FindProgramById = async () => {
     const fetchProgram = await useFetch({ url: `/api/user/program/${id}`, method: "GET" });
     if (fetchProgram.data === null) {
       alert(fetchProgram.message);
@@ -23,22 +23,22 @@ export default function DetailProgramPage({ params }: { params: { id: string } }
   };
 
   useEffect(() => {
-    findProgramById();
+    FindProgramById();
   }, []);
 
   const router = useRouter();
 
-  const updateProgram = async () => {
+  const UpdateProgram = async () => {
     const fetchProgram = await useFetch({
       url: `/api/user/program/${id}`,
       method: "PATCH",
       reqBody: programBody,
     });
     alert(fetchProgram.message);
-    findProgramById();
+    FindProgramById();
   };
 
-  const deleteProgram = async () => {
+  const DeleteProgram = async () => {
     const fetchProgram = await useFetch({ url: `/api/user/program/${id}`, method: "DELETE" });
     alert(fetchProgram.message);
     router.push("/dashboard");
@@ -88,7 +88,7 @@ export default function DetailProgramPage({ params }: { params: { id: string } }
               </ul>
             </div>
           </div>
-          <EditProgramLayout data={data} programBody={programBody} setProgramBody={setProgramBody} handleUpdateProgram={updateProgram} handleDeleteProgram={deleteProgram} />
+          <EditProgramLayout data={data} programBody={programBody} setProgramBody={setProgramBody} handleUpdateProgram={UpdateProgram} handleDeleteProgram={DeleteProgram} />
         </>
       )}
     </div>

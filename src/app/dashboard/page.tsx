@@ -14,7 +14,7 @@ export default function DashboardPage() {
   });
   const [programDatas, setProgramDatas] = useState<any>("");
 
-  const getAllUserProgram = async () => {
+  const GetAllUserProgram = async () => {
     const fetchProgram = await useFetch({
       url: "/api/user/programs",
       method: "GET",
@@ -22,19 +22,19 @@ export default function DashboardPage() {
     setProgramDatas(fetchProgram.data);
   };
 
-  const createProgram = async () => {
+  const CreateProgram = async () => {
     const fetchProgram = await useFetch({ url: "/api/user/program", method: "POST", reqBody: programBody });
     alert(fetchProgram.message);
-    getAllUserProgram();
+    GetAllUserProgram();
   };
 
   useEffect(() => {
-    getAllUserProgram();
+    GetAllUserProgram();
   }, []);
 
   return (
     <section className="flex flex-col gap-6 w-full">
-      <CreateProgramLayout programBody={programBody} setProgramBody={setProgramBody} onClick={createProgram} />
+      <CreateProgramLayout programBody={programBody} setProgramBody={setProgramBody} onClick={CreateProgram} />
       {programDatas ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {programDatas.map((program: any) => (

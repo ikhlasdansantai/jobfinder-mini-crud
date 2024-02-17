@@ -2,9 +2,7 @@
 ![tugas_dua_done](https://github.com/ikhlasdansantai/jobfinder-mini-crud/assets/95151018/890b309e-bdb2-419e-bed7-3090421cb416)
 ![tugas_dua](https://github.com/ikhlasdansantai/jobfinder-mini-crud/assets/95151018/fbad2ec4-090c-4e62-9a05-7687218b2e73)
 
-Website ini meliputi beberapa fitur MVP, khususnya **CRUD**, disini kita mendemokan sebagi admin, yang bisa membuat program kerja, mengedit program kerja, dan menghapus program kerja.
-
-Mohon maaf jika ada yang masih belum mobile friendly:v, mengingat fitur utama yang ingin ditonjolkan pada web ini adalah CRUD nya saja.
+Website ini meliputi beberapa fitur MVP, khususnya **CRUD**, disini kita mendemokan sebagi admin, yang bisa membuat program kerja, mengedit program kerja, dan menghapus program kerja. Mobile friendly nya soon 🚀
 
 ## Endpoint
 ada beberapa point, yang ingin saya sampaikan, jangan lupa model dari id `JobProgram`, diganti jadi `cuid` aja, klo `uuid` agak susah dibacanya:V  
